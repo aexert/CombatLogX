@@ -106,9 +106,17 @@ public final class ListenerBlocks extends CheatPreventionListener {
         if (minorVersion < 13) {
             int data = block.getData();
             String materialName = String.format(Locale.US, "%s:%s", bukkitType.name(), data);
-            return XMaterial.matchXMaterial(materialName).orElse(XMaterial.AIR);
+            try {
+                return XMaterial.matchXMaterial(materialName).orElse(XMaterial.AIR);
+            } catch (IllegalArgumentException ex) {
+                return XMaterial.AIR;
+            }
         } else {
-            return XMaterial.matchXMaterial(bukkitType);
+            try {
+                return XMaterial.matchXMaterial(bukkitType);
+            } catch (IllegalArgumentException ex) {
+                return XMaterial.AIR;
+            }
         }
     }
 }
